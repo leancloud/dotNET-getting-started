@@ -4,7 +4,7 @@ FROM microsoft/dotnet:2.0-sdk
 WORKDIR /app/dist
 
 # copy csproj and restore as distinct layers
-COPY ./LeanEngine ./
+COPY ./ ./
 
 # restore dependencies
 RUN dotnet restore LeanEngine.sln
@@ -14,9 +14,6 @@ EXPOSE 3000
 
 # set aspnet url
 ENV ASPNETCORE_URLS http://0.0.0.0:3000
-
-# copy and build everything else
-COPY . ./
 
 # build and publish to working path 
 RUN dotnet publish -o /app/dist -c Release 
