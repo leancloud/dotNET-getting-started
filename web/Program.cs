@@ -7,7 +7,7 @@ namespace web
     {
         static void Main(string[] args)
         {
-            Cloud cloud = new Cloud().SetHooks();
+            Cloud cloud = new Cloud().SetHooks().UseLog();
             cloud.Start(args);
         }
     }
