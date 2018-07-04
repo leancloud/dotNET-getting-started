@@ -7,9 +7,8 @@ namespace web
     {
         static void Main(string[] args)
         {
-            Cloud cloud = new Cloud();
+            Cloud cloud = new Cloud().SetHooks();
             cloud.Start(args);
-            Console.WriteLine("Hello World!");
         }
     }
 }
