@@ -21,10 +21,15 @@ namespace web
             var netEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var leanEnv = Environment.GetEnvironmentVariable("LEANCLOUD_APP_PROD");
             Console.WriteLine($"leanEnv:{leanEnv}");
-            Console.WriteLine("1".Equals(leanEnv));
+            var isLeanProd = "1".Equals(leanEnv);
+            Console.WriteLine($"isLeanProd:{isLeanProd}");
+
             Console.WriteLine($"netEnv:{netEnv}");
-            Console.WriteLine(EnvironmentName.Production.Equals(netEnv));
-            Console.WriteLine("1".Equals(leanEnv) || EnvironmentName.Production.Equals(netEnv));
+            var isNetProd = EnvironmentName.Production.Equals(netEnv);
+            Console.WriteLine($"isNetProd:{isNetProd}");
+
+            Console.WriteLine($"isProd:{isLeanProd || isNetProd}");
+
             AVClient.Initialize(configuration);
 
             Cloud cloud = new Cloud().SetHooks().UseLog();
