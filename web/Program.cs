@@ -20,15 +20,11 @@ namespace web
             };
             var netEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var leanEnv = Environment.GetEnvironmentVariable("LEANCLOUD_APP_PROD");
-            Console.WriteLine($"leanEnv:{leanEnv}");
             var isLeanProd = "1".Equals(leanEnv);
-            Console.WriteLine($"isLeanProd:{isLeanProd}");
-
-            Console.WriteLine($"netEnv:{netEnv}");
             var isNetProd = EnvironmentName.Production.Equals(netEnv);
-            Console.WriteLine($"isNetProd:{isNetProd}");
 
-            Console.WriteLine($"isProd:{isLeanProd || isNetProd}");
+            Console.WriteLine($"leanEnv:{leanEnv};isLeanProd:{isLeanProd};netEnv:{netEnv};isNetProd:{isNetProd};isProd:{isLeanProd || isNetProd}");
+
 
             AVClient.Initialize(configuration);
 
