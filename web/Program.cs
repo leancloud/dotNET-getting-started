@@ -24,7 +24,7 @@ namespace web
             Console.WriteLine("1".Equals(leanEnv));
             Console.WriteLine($"netEnv:{netEnv}");
             Console.WriteLine(EnvironmentName.Production.Equals(netEnv));
-
+            Console.WriteLine("1".Equals(leanEnv) || EnvironmentName.Production.Equals(netEnv));
             AVClient.Initialize(configuration);
 
             Cloud cloud = new Cloud().SetHooks().UseLog();
