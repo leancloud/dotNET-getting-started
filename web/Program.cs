@@ -4,6 +4,7 @@ using LeanCloud;
 using LeanCloud.Core.Internal;
 using LeanCloud.Engine;
 using LeanCloud.Storage.Internal;
+using Microsoft.AspNetCore.Hosting;
 
 namespace web
 {
@@ -17,6 +18,12 @@ namespace web
                 ApplicationKey = "Y04sM6TzhMSBmCMkwfI3FpHc",
                 MasterKey = "Ep3IHWFqi41DMm44T49lKy07"
             };
+            var netEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var leanEnv = Environment.GetEnvironmentVariable("LEANCLOUD_APP_PROD");
+            Console.WriteLine($"leanEnv:{leanEnv}");
+            Console.WriteLine("1".Equals(leanEnv));
+            Console.WriteLine($"netEnv:{netEnv}");
+            Console.WriteLine(EnvironmentName.Production.Equals(netEnv));
 
             AVClient.Initialize(configuration);
 
