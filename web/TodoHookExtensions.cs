@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using LeanCloud;
 using LeanCloud.Core.Internal;
 using LeanCloud.Engine;
+using System.Collections.Generic;
 
 namespace web
 {
@@ -29,17 +31,56 @@ namespace web
                 await post.FetchAsync();
                 post.Increment("comments");
                 await post.SaveAsync();
-            }).AfterSave("", async user =>
+            }).AfterSave("_User", async user =>
             {
                 if (user is AVUser avUser)
                 {
                     avUser.Set("from", "LeanCloud");
                     await avUser.SaveAsync();
                 }
-            }).BeforeUpdate("Todo", (EngineObjectHookContext context) =>
+            }).BeforeUpdate("Review", (EngineObjectHookContext context) =>
              {
-                 return Task.FromResult("haha");
-             });
+                 if (context.UpdatedKeys.Contains("comment"))
+                 {
+                     var comment = context.TheObject.Get<string>("comment");
+                     if (comment.Length > 140) throw new EngineException(400, "comment 长度不得超过 140 字符");
+                 }
+                 return Task.FromResult(true);
+             }).AfterSave("Article", article =>
+             {
+                 Console.WriteLine(article.ObjectId);
+                 return Task.FromResult(true);
+             }).BeforeDelete("Album", async album =>
+                {
+                    AVQuery<AVObject> query = new AVQuery<AVObject>("Photo");
+                    query.WhereEqualTo("album", album);
+                    int count = await query.CountAsync();
+                    if (count > 0)
+                    {
+                        throw new Exception("无法删除非空相簿");
+                    }
+                    else
+                    {
+                        Console.WriteLine("deleted.");
+                    }
+                }).AfterDelete("Album", async album =>
+                      {
+                          AVQuery<AVObject> query = new AVQuery<AVObject>("Photo");
+                          query.WhereEqualTo("album", album);
+                          var result = await query.FindAsync();
+                          if (result != null && result.Count() != 0)
+                          {
+                              await AVObject.DeleteAllAsync(result);
+                          }
+                      }).OnVerifiedSMS((AVUser user) =>
+                      {
+                          Console.WriteLine("user verified by sms");
+                          return Task.FromResult(true);
+                      }).OnLogIn(user =>
+                     {
+                         Console.WriteLine("user logged in.");
+                         return Task.FromResult(true);
+                     });
             return cloud;
         }
     }
