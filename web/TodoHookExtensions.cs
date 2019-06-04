@@ -76,7 +76,7 @@ namespace web
             {
                 Console.WriteLine("user verified by sms");
                 return Task.FromResult(true);
-            }).OnLogIn(user =>
+            }).OnLogIn((AVUser user) =>
             {
                 Console.WriteLine("user logged in.");
                 return Task.FromResult(true);
