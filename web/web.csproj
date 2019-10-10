@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LeanCloud.Engine.Middleware.AspNetCore" Version="2019.6.4.9" />
+    <PackageReference Include="LeanCloud.Engine.Middleware.AspNetCore" Version="2019.10.10.8" />
   </ItemGroup>
 
 </Project>
