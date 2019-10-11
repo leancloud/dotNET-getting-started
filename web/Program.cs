@@ -13,6 +13,7 @@ namespace web
         static void Main(string[] args)
         {
             Cloud cloud = new Cloud().SetHooks().UseLog();
+            cloud.UseFunction<HelloSample>();
             cloud.Start(args);
         }
     }
